@@ -9,10 +9,6 @@ import java.util.Set;
 
 @Data
 @Entity
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
 
@@ -24,7 +20,7 @@ public class Role implements GrantedAuthority {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+    private Set<User> users;
 
     @Override
     public String getAuthority() {

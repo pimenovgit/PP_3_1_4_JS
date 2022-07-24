@@ -7,8 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
-
-import java.security.Principal;
+import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -16,7 +15,6 @@ public class AdminController {
 
 
     private final UserService userService;
-
 
     @Autowired
     public AdminController(UserService userService) {
@@ -37,7 +35,7 @@ public class AdminController {
 
     @PostMapping(value = "/create")
     public String createUser(@ModelAttribute("user") User user){
-        userService.createUser(user);
+        userService.saveUser(user);
         return "redirect:/users";
     }
 

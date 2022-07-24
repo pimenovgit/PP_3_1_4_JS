@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.configs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -8,13 +7,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import ru.kata.spring.boot_security.demo.services.UserService;
+import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -40,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                .logoutSuccessUrl("/login")
                 .permitAll();
     }
 
@@ -62,19 +59,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder getBCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    protected DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(getBCryptPasswordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userService);
-        return daoAuthenticationProvider;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
+        auth.inMemoryAuthentication()
+                .passwordEncoder(getBCryptPasswordEncoder())
+                .withUser("admin")
+                .password(getBCryptPasswordEncoder().encode("admin"))
+                .roles("ADMIN")
+                .and()
+                .withUser("user")
+                .password(getBCryptPasswordEncoder().encode("user"))
+                .roles("USER");
+
+        auth.userDetailsService(userService);
     }
-
-
-
 }

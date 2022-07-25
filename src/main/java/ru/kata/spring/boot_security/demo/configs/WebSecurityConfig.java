@@ -27,17 +27,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-                .antMatchers("/", "/index").permitAll()
-                .anyRequest().authenticated()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                    .antMatchers("/", "/index").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(successUserHandler)
-                .permitAll()
+                    .formLogin().successHandler(successUserHandler)
+                    .permitAll()
                 .and()
-                .logout()
-                .logoutSuccessUrl("/login")
-                .permitAll();
+                    .logout()
+                    .logoutSuccessUrl("/login")
+                    .permitAll();
     }
 
     // аутентификация inMemory
@@ -68,9 +68,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .password(getBCryptPasswordEncoder().encode("admin"))
                 .roles("ADMIN")
                 .and()
-                .withUser("user")
-                .password(getBCryptPasswordEncoder().encode("user"))
-                .roles("USER");
+                    .withUser("user")
+                    .password(getBCryptPasswordEncoder().encode("user"))
+                    .roles("USER");
 
         auth.userDetailsService(userService);
     }

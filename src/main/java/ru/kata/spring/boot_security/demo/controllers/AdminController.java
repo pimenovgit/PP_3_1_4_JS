@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.services.UserService;
-import ru.kata.spring.boot_security.demo.services.UserServiceImpl;
 
 @Controller
 @RequestMapping(value = "/admin")
@@ -21,10 +20,10 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users")
+    @GetMapping()
     public String getUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        return "users";
+        return "admin";
     }
 
     @GetMapping(value = "/create")
@@ -36,13 +35,13 @@ public class AdminController {
     @PostMapping(value = "/create")
     public String createUser(@ModelAttribute("user") User user){
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @GetMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 
     @GetMapping(value = "/update/{id}")
@@ -54,7 +53,7 @@ public class AdminController {
     @PostMapping("/update/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
         userService.updateUser(user);
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 }
 

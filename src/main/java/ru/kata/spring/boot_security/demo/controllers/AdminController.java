@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
 
 @Controller
@@ -14,10 +15,12 @@ public class AdminController {
 
 
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping()
@@ -29,11 +32,13 @@ public class AdminController {
     @GetMapping(value = "/create")
     public String createUserForm(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "create";
     }
 
     @PostMapping(value = "/create")
-    public String createUser(@ModelAttribute("user") User user){
+    public String createUser(@ModelAttribute("user") User user, @RequestParam(value = "role") String role){
+        user.setRoles(roleService.findRolesByName(role));
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -47,11 +52,13 @@ public class AdminController {
     @GetMapping(value = "/update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.getUserId(id));
+        model.addAttribute("roles", roleService.getAllRoles());
         return "update";
     }
 
     @PostMapping("/update/{id}")
-    public String updateUser(@ModelAttribute("user") User user) {
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam(value = "role") String role) {
+        user.setRoles(roleService.findRolesByName(role));
         userService.updateUser(user);
         return "redirect:/admin";
     }

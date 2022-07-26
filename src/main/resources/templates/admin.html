@@ -13,8 +13,8 @@
     <th>Password</th>
     <th>Mail</th>
     <th>Role</th>
-    <th>Редактирование</th>
-    <th>Удаление</th>
+    <th>Edit</th>
+    <th>Delete</th>
   </tr>
 
   <tr th:each="user : ${users}">
@@ -27,7 +27,14 @@
     <td> <a th:href="@{admin/delete/{id}(id=${user.id})}">delete</a></td>
   </tr>
 </table>
-<a th:href="@{/admin/create}">create new user</a>
+<br>
+<form th:action="@{/admin/create}">
+  <button type="submit">add new user</button>
+</form>
+<br>
+<form th:action="@{/logout}" method="post">
+  <button type="submit">Sign Out</button>
+</form>
 </body>
 </html>
 </body>

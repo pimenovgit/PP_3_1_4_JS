@@ -15,6 +15,16 @@
 
     <input type="text" th:field="*{mail}" id="mail" placeholder="Почта"/>
     <br/>
+    <strong><label for="role">Role</label></strong>
+    <select multiple class="custom-select w-100"
+            size="2" id="role" name="role">
+        <option
+                th:each="role : ${roles}"
+                th:text="${role.getName()}"
+                th:value="${role.name}">
+        </option>
+    </select>
+    <br/>
     <input type = "submit" value = "Редактировать"/>
 </form>
 </body>

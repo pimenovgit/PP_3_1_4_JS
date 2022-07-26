@@ -4,8 +4,6 @@
     <title>User</title>
 </head>
 <body>
-<h2>User info</h2>
-<div th:if = "${user}">
     <table border="1">
         <tr>
             <th>ID</th>
@@ -13,15 +11,17 @@
             <th>Password</th>
             <th>Mail</th>
             <th>Role</th>
-        </tr>
-        <td th:text="${user.}"></td>
-        <td th:text="${user.username}"></td>
-        <td th:text="${user.password}"></td>
-        <td th:text="${user.mail}"></td>
-        <td th:text="${user.authorities}"></td>>
 
+        </tr>
+        <tr th:each="user : ${user}" >
+            <td th:text="${user.getId}"></td>
+            <td th:text="${user.getUsername}"></td>
+            <td th:text="${user.getPassword}"></td>
+            <td th:text="${user.getMail}"></td>
+            <td th:text="${user.getRoles()}"></td>
+
+        </tr>
     </table>
-</div>
 <br/>
 <br/>
 <form th:action="@{'/logout'}">

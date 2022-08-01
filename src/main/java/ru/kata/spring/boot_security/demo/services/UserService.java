@@ -22,8 +22,5 @@ public interface UserService extends UserDetailsService {
 
     public List<User> getAllUsers();
 
-    public User findByUsername(String username);
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    User findUserByEmail(String email);
 }

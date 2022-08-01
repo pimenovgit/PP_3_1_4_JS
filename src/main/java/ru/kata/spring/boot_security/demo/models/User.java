@@ -24,8 +24,17 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "lastname")
+    private String lastname;
+
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -33,8 +42,6 @@ public class User implements UserDetails {
     @Transient
     private String confirmpassword;
 
-    @Column(name = "mail")
-    private String mail;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable (
@@ -55,6 +62,11 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override
@@ -88,5 +100,13 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public String getRolesName() {
+        StringBuilder sb = new StringBuilder();
+        for (Role role : this.getRoles()) {
+            sb.append(role.getName().split("_")[1] + " ");
+        }
+        return sb.toString();
     }
 }

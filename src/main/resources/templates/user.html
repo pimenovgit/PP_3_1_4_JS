@@ -1,30 +1,85 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>User</title>
+    <meta charset="UTF-8">
+    <!-- Required meta tags -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <p class="navbar-brand text-white">
+                <b><span class="align-middle" th:text="${user.email}"></span></b>
+                <span class="align-middle">with roles:</span>
+                <span class="align-middle" th:text="${user.getRolesName}">USER</span>
+            </p>
+            <ul class="navbar-nav px-4">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+
+    <strong><title>User information-page</title></strong>
+
 </head>
 <body>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Password</th>
-            <th>Mail</th>
-            <th>Role</th>
+    <div class="container-fluid">
+       <div class = "row">
+           <div class="col-md-2">
+               <ul class="nav flex-column">
+                   <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                       <a class="nav-link"
+                          th:classappend="${#httpServletRequest.getRequestURI().equals('/admin') ? 'active bg-primary text-white' : ''}"
+                          href="#" th:href="@{/admin}">Admin</a>
+                   </li>
+                   <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'USER')">
+                       <a class="nav-link"
+                          th:classappend="${#httpServletRequest.getRequestURI().equals('/user') ? 'active bg-primary text-white' : ''}"
+                          href="#" th:href="@{/user}">User</a>
+                   </li>
+               </ul>
+           </div>
 
-        </tr>
-        <tr th:each="user : ${user}" >
-            <td th:text="${user.getId}"></td>
-            <td th:text="${user.getUsername}"></td>
-            <td th:text="${user.getPassword}"></td>
-            <td th:text="${user.getMail}"></td>
-            <td th:text="${user.getRoles()}"></td>
 
-        </tr>
-    </table>
-<br/>
-<br/>
-<form th:action="@{'/logout'}">
-    <input type="submit" value="Logout"/>
-</form>
-</body>
+
+           <div class="col-md-10">
+            <h1>User information-page</h1>
+               <br>
+               <div class="card">
+                   <h5 class="card-header">About user</h5>
+                   <div class="card-body">
+                       <table class="table table-striped">
+                            <thead>
+                                <th>ID</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Age</th>
+                                <th>Email</th>
+                                <th>Role</th>
+
+                            </thead>
+                            <tbody>
+                                <td th:text="${user.getId}"></td>
+                                <td th:text="${user.getName()}"></td>
+                                <td th:text="${user.getLastname()}"></td>
+                                <td th:text="${user.getAge()}"></td>
+                                <td th:text="${user.getEmail()}"></td>
+                                <td th:text="${user.getRolesName()}"></td>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+           </div>
+           </div>
+    </div>
+
+    </body>
+</html>

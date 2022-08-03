@@ -1,5 +1,5 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html lang="ru" xmlns="http://www.w3.org/1999/html">
 <head>
     <!-- Кодировка веб-страницы -->
@@ -21,38 +21,46 @@
             integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <p class="navbar-brand text-white">
+            <b><span class="align-middle" th:text="${user.email}"></span></b>
+            <span class="align-middle">with roles:</span>
+            <span class="align-middle" th:text="${user.getRolesName}">USER</span>
+        </p>
+        <ul class="navbar-nav px-4">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<br>
 
+<strong><title>User information-page</title></strong>
+
+</head>
 <body>
-
-
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 p-2 bg-dark text-white ">
-            <a class="font-weight-bold text-white" th:text="${admin.getEmail()}"> </a>
-            <a> with roles:</a>
-
-            <a th:each="role : ${admin.getRoles()}">
-                <a th:text="${admin.getRolesName()}"></a>
-            </a>
-            <a href="/logout" class="float-right text-secondary"> Logout </a>
-        </div>
-        <div class="col-sm-2" style="padding-left: 0px; padding-right: 0px">
-            <ul class="nav nav-tabs flex-column">
-                <li class="nav-pills">
-                    <a class="nav-link active" data-toggle="tab" href="#admin">Admin</a>
+    <div class = "row">
+        <div class="col-md-2">
+            <ul class="nav flex-column">
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link"
+                       th:classappend="${#httpServletRequest.getRequestURI().equals('/admin') ? 'active bg-primary text-white' : ''}"
+                       href="#" th:href="@{/admin}">Admin</a>
                 </li>
-                <li class="nav-pills ">
-                    <a class="nav-link" data-toggle="tab" href="#user">User</a>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'USER')">
+                    <a class="nav-link"
+                       th:classappend="${#httpServletRequest.getRequestURI().equals('/user') ? 'active bg-primary text-white' : ''}"
+                       href="#" th:href="@{/user}">User</a>
                 </li>
             </ul>
         </div>
-        <div class="col-md-10 height: 1200 px" style="height: 1000px; background: #F7F7F7">
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="admin">
                     <!--                    Admin panel          -->
                     <div class="row">
                         <div class="col-sm-12 p-3">
-                            <h2>Admin panel</h2>
+                            <h1>Admin panel</h1>
                         </div>
                         <div class="col">
                             <ul class="nav nav-tabs">
@@ -68,7 +76,7 @@
                                     <table class="table table-striped bg-white">
                                         <tbody class="border">
                                         <tr>
-                                            <th>All Users</th>
+                                            <h5 class="card-header">About user</h5>
                                         </tr>
                                         <tr>
                                             <td>
@@ -402,42 +410,6 @@
 
                         <div class="col-sm-12 p-3">
                             <h1>User information-page</h1>
-                        </div>
-
-                        <!--                        user page -->
-                        <div class="col">
-                            <table class="table table-striped bg-white">
-                                <tbody class="border">
-                                <tr>
-                                    <th>About User</th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <table class="table">
-                                            <thead>
-                                            <tr class="bg-white">
-                                                <th scope="col">ID</th>
-                                                <th scope="col">First Name</th>
-                                                <th scope="col">Last Name</th>
-                                                <th scope="col">Age</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Role</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <td th:text="${admin.getId()}"></td>
-                                            <td th:text="${admin.getName()}"></td>
-                                            <td th:text="${admin.getLastname()}"></td>
-                                            <td th:text="${admin.getAge()}"></td>
-                                            <td th:text="${admin.getEmail()}"></td>
-                                            <td th:text="${admin.getRolesName()}"></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>

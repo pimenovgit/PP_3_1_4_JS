@@ -14,51 +14,43 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 import java.security.Principal;
 
 @Controller
-@RequestMapping(value = "/admin")
+@RequestMapping("/admin")
 public class AdminController {
 
 
     private final UserService userService;
     private final RoleService roleService;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, BCryptPasswordEncoder passwordEncoder) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping()
-    public String getUsers(Model model, @RequestParam("user") User user) {
-        User authUser = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("authUser", authUser);
+    @GetMapping
+    public String getAllUsers(Principal principal, Model model) {
         model.addAttribute("users", userService.getAllUsers());
-        model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("admin", userService.findUserByEmail(principal.getName()));
         model.addAttribute("newUser", new User());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "admin";
     }
 
-    @PostMapping("/new")
-    public String saveUser(@ModelAttribute("newUser") User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.saveUser(user);
-        return "redirect:/admin";
-    }
-
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("editUser") User user, Principal principal) {
-        if (!userService.findUserByEmail(principal.getName()).getPassword().startsWith("$")) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
+    @PostMapping("/{id}")
+    public String updateUser(User user) {
         userService.updateUser(user);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/{id}/delete")
+    @PostMapping(value = "/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteById(id);
         return "redirect:/admin";
+    }
+    @PostMapping(value = "/create")
+    public String addRegistration(@ModelAttribute("newUser") User user) {
+        userService.saveUser(user);
+            return "redirect:/admin";
     }
 }
 

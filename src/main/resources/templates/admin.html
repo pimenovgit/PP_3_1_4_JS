@@ -1,6 +1,5 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<html lang="ru" xmlns="http://www.w3.org/1999/html">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Кодировка веб-страницы -->
     <meta charset="utf-8">
@@ -26,7 +25,7 @@
         <p class="navbar-brand text-white">
             <b><span class="align-middle" th:text="${user.email}"></span></b>
             <span class="align-middle">with roles:</span>
-            <span class="align-middle" th:text="${user.getRolesName}">USER</span>
+            <span class="align-middle" th:text="${user.getRolesName}">Role</span>
         </p>
         <ul class="navbar-nav px-4">
             <li class="nav-item text-nowrap">
@@ -408,5 +407,4 @@
     </div>
 </div>
 </body>
-</html>
 </html>

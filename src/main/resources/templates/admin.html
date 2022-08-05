@@ -137,13 +137,13 @@
                                                                                             <div class="form-group text-center">
                                                                                                 <strong >First name</strong>
                                                                                                 <input type="text" class="form-control"
-                                                                                                       name="firstName" th:value="${user.name}"
+                                                                                                       name="name" th:value="${user.name}"
                                                                                                        id="edit-name"/>
                                                                                             </div>
                                                                                             <div class="form-group text-center">
                                                                                                 <strong >Last name</strong>
                                                                                                 <input type="text" class="form-control"
-                                                                                                       name="lastName" th:value="${user.lastname}"
+                                                                                                       name="lastname" th:value="${user.lastname}"
                                                                                                        id="edit-lastname"/>
                                                                                             </div>
                                                                                             <div class="form-group">
@@ -162,20 +162,20 @@
                                                                                                 <div class="form-group text-center">
                                                                                                     <strong >Password</strong>
                                                                                                     <input type="text" class="form-control"
-                                                                                                           name="password"
+                                                                                                           name="password" th:value="${user.password}"
                                                                                                            id="edit-password"/>
                                                                                                 </div>
                                                                                                 <div class="form-group text-center">
-                                                                                                    <strong >Role</strong>
-                                                                                                    <select class="form-control"
-                                                                                                            name="roles"
-                                                                                                            multiple size="2">
-                                                                                                        <div th:each="role : ${roles}">
-                                                                                                            <option th:text="${role.toString()}"
-                                                                                                                    th:value="${role.id}"
-                                                                                                                    name="roles">
-                                                                                                            </option>
-                                                                                                        </div>
+                                                                                                    <strong><label for="roles">Role</label></strong>
+                                                                                                    <select multiple class="custom-select w-100"
+                                                                                                            size="2"
+                                                                                                            id="roles"
+                                                                                                            name="role">
+                                                                                                        <option
+                                                                                                                th:each="role : ${roles}"
+                                                                                                                th:value="${role.name}"
+                                                                                                                th:text="${role.getName()}">
+                                                                                                        </option>
                                                                                                     </select>
                                                                                                 </div>
                                                                                             </div>
@@ -259,19 +259,15 @@
                                                                                                            name="password"
                                                                                                            readonly/>
                                                                                                 </div>
-                                                                                                <div class="form-group text-center">
-                                                                                                    <strong >Role</strong>
-                                                                                                    <select class="form-control"
-                                                                                                            name="roles"
-                                                                                                            multiple size="2"
-                                                                                                            readonly>
-                                                                                                        <div th:each="role : ${roles}">
-                                                                                                            <option th:text="${role.toString()}"
-                                                                                                                    th:value="${role.id}"
-                                                                                                                    name="roles"
-                                                                                                                    readonly>
-                                                                                                            </option>
-                                                                                                        </div>
+                                                                                                <div class="form-group">
+                                                                                                    <strong><label for="editRole">Role</label></strong>
+                                                                                                    <select multiple class="custom-select w-100"
+                                                                                                            size="2" id="editRole" name="role">
+                                                                                                        <option
+                                                                                                                th:each="role : ${roles}"
+                                                                                                                th:text="${role.getName()}"
+                                                                                                                th:value="${role.name}">
+                                                                                                        </option>
                                                                                                     </select>
                                                                                                 </div>
                                                                                             </div>
@@ -301,7 +297,7 @@
                                     </table>
                                 </div>
 
-                                <!-- New user            -->
+                                <!--             New user            -->
                                 <div class="tab-pane fade" id="newUser">
                                     <table class="table table-striped bg-white">
                                         <tbody class="border">
@@ -312,7 +308,7 @@
                                         <tr class="centered">
                                             <td>
                                                 <div class="col-sm-4 mx-auto">
-                                                    <form th:method="post" th:action="@{/create}"
+                                                    <form th:method="post" th:action="@{/admin/create}"
                                                           th:object="${newUser}">
                                                         <table>
 
@@ -320,8 +316,8 @@
                                                                 <div class="form-group text-center">
                                                                     <strong>First name</strong>
                                                                     <input type="text" class="form-control"
-                                                                           th:field="*{name}" id="firstName"
-                                                                           aria-describedby="firstNameHelp"
+                                                                           th:field="*{name}" id="name"
+                                                                           aria-describedby="nameHelp"
                                                                            placeholder="First name">
                                                                 </div>
                                                             </tr>
@@ -329,8 +325,8 @@
                                                                 <div class="form-group text-center">
                                                                     <strong>Last name</strong>
                                                                     <input type="text" class="form-control"
-                                                                           th:field="*{lastname}" id="lastName"
-                                                                           aria-describedby="ageHelp"
+                                                                           th:field="*{lastname}" id="lastname"
+                                                                           aria-describedby="lastnameHelp"
                                                                            placeholder="Last name">
                                                                 </div>
                                                             </tr>
@@ -339,7 +335,7 @@
                                                                     <strong>Age</strong>
                                                                     <input type="text" class="form-control"
                                                                            th:field="*{age}" id="age"
-                                                                           aria-describedby="ageNameHelp"
+                                                                           aria-describedby="ageHelp"
                                                                            placeholder="Age">
                                                                 </div>
                                                             </tr>
@@ -369,7 +365,7 @@
                                                                             th:field="*{roles}">
                                                                         <option th:each="ro: ${roles}"
                                                                                 th:value="${ro.getId()}"
-                                                                                th:text="${ro.toString()}"></option>
+                                                                                th:text="${ro.getName()}"></option>
                                                                     </select>
                                                                 </div>
 
@@ -390,15 +386,6 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="user">
-
-                    <div class="row">
-
-                        <div class="col-sm-12 p-3">
-                            <h1>User information-page</h1>
                         </div>
                     </div>
                 </div>

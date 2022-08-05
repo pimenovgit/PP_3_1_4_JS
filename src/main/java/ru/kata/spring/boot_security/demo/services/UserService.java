@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 public interface UserService extends UserDetailsService {
-    public void saveUser(User user);
+    public boolean saveUser(User user);
     public void updateUser(User user);
 
     public void deleteById(Long id);

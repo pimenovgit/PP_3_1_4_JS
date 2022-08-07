@@ -49,7 +49,7 @@ public class AdminController {
         return "redirect:/admin";
     }
     @PostMapping(value = "/create")
-    public String addRegistration(@ModelAttribute("newUser") User user) {
+    public String createUser(@ModelAttribute("newUser") User user) {
         userService.saveUser(user);
             return "redirect:/admin";
     }

@@ -1,5 +1,5 @@
 const createForm = document.getElementById("createForm");
-addForm.addEventListener("submit", (e) => {
+createForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const formData = new FormData(createForm);
@@ -22,7 +22,7 @@ addForm.addEventListener("submit", (e) => {
         }
     });
 
-    fetch("api/admin/create", {
+    fetch("api/users", {
         method: "POST",
         headers: {
             "Content-type": "application/json"
@@ -32,5 +32,7 @@ addForm.addEventListener("submit", (e) => {
         .then(() => allUsers())
         .then(() => createForm.reset());
 
+
     return show('Page1','Page2');
+
 })

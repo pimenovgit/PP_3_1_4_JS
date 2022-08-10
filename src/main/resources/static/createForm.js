@@ -22,7 +22,7 @@ createForm.addEventListener("submit", (e) => {
         }
     });
 
-    fetch("api/users", {
+    fetch("api/admin/create", {
         method: "POST",
         headers: {
             "Content-type": "application/json"

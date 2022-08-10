@@ -48,8 +48,7 @@ class RestAdminController {
     }
 
     @PutMapping("/admin/update/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, String role) {
-        user.setRoles(roleService.findRolesByName(role));
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user) {
         userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }

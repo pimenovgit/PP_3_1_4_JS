@@ -1,4 +1,4 @@
-const editModal = document.getElementById('ModalEdit')
+const editModal = document.getElementById('editUserModal')
 editModal.addEventListener('show.bs.modal', event => {
     const button = event.relatedTarget
     const userId = button.getAttribute('data-bs-userId')

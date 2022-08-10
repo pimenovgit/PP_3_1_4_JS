@@ -3,7 +3,9 @@ formEdit.addEventListener('submit', e => {
     e.preventDefault();
 
     const formData = new FormData(formEdit);
-    const object = {};
+    const object = {
+        roles:[]
+    };
 
     formData.forEach((value, key) => {
         if (key === "rolesId"){
@@ -19,7 +21,7 @@ formEdit.addEventListener('submit', e => {
             object[key] = value;
         }
     });
-    fetch("api/admin/"+formData.get("id"), {
+    fetch("api/admin/update/"+formData.get("id"), {
         method: "PUT",
         headers: {
             "Content-type": "application/json"
@@ -27,6 +29,6 @@ formEdit.addEventListener('submit', e => {
         body: JSON.stringify(object)
     })
         .then(() => allUsers());
-    $("#ModalEdit").modal("hide");
+    $("#editUserModal").modal("hide");
     formEdit.reset();
 })

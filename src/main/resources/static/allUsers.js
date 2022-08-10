@@ -31,7 +31,7 @@ async function allUsers() {
                 <button type="button" class="btn btn-info text-white" data-bs-userId=${id}
                     data-bs-userName=${name} data-bs-userLastname=${lastname} data-bs-userAge=${age}
                     data-bs-userEmail=${email} data-bs-toggle="modal"
-                    data-bs-target="#ModalEdit">Edit</button>
+                    data-bs-target="#editUserModal">Edit</button>
             </td>
             <td>
                 <button type="button" class="btn btn-danger" data-bs-userId=${id}

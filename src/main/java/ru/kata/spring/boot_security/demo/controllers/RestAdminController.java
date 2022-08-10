@@ -47,10 +47,10 @@ class RestAdminController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/admin/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@PathVariable("id") Long id, @RequestBody User user, String role) {
+    @PutMapping("/admin/update/{id}")
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, String role) {
         user.setRoles(roleService.findRolesByName(role));
-        userService.saveUser(user);
+        userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
